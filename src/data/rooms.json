@@ -1,0 +1,696 @@
+[
+    {
+        "id": 0,
+        "name": "Deluxe A-91234",
+        "images": [
+            "./room.jpg",
+            "./room.jpg"
+        ],
+        "type": "Suite",
+        "price": 231,
+        "offer": 165,
+        "amenities": [
+            "AC",
+            "Shower",
+            "Double bed",
+            "Towel",
+            "Bathup",
+            "Cofee Set",
+            "LED TV",
+            "Wifi"
+        ],
+        "available": true
+    },
+    {
+        "id": 1,
+        "name": "Deluxe A-91234",
+        "images": [
+            "./room.jpg"
+        ],
+        "type": "Suite",
+        "price": 232,
+        "offer": 121,
+        "amenities": [
+            "AC",
+            "Shower",
+            "Double bed",
+            "Towel",
+            "Bathup",
+            "Cofee Set",
+            "LED TV",
+            "Wifi"
+        ],
+        "available": false
+    },
+    {
+        "id": 2,
+        "name": "Deluxe A-91234",
+        "images": [
+            "./room.jpg"
+        ],
+        "type": "Suite",
+        "price": 246,
+        "offer": 173,
+        "amenities": [
+            "AC",
+            "Shower",
+            "Double bed",
+            "Towel",
+            "Bathup",
+            "Cofee Set",
+            "LED TV",
+            "Wifi"
+        ],
+        "available": true
+    },
+    {
+        "id": 3,
+        "name": "Deluxe A-91234",
+        "images": [
+            "./room.jpg"
+        ],
+        "type": "Suite",
+        "price": 225,
+        "offer": 124,
+        "amenities": [
+            "AC",
+            "Shower",
+            "Double bed",
+            "Towel",
+            "Bathup",
+            "Cofee Set",
+            "LED TV",
+            "Wifi"
+        ],
+        "available": false
+    },
+    {
+        "id": 4,
+        "name": "Deluxe A-91234",
+        "images": [
+            "./room.jpg"
+        ],
+        "type": "Suite",
+        "price": 218,
+        "offer": 183,
+        "amenities": [
+            "AC",
+            "Shower",
+            "Double bed",
+            "Towel",
+            "Bathup",
+            "Cofee Set",
+            "LED TV",
+            "Wifi"
+        ],
+        "available": false
+    },
+    {
+        "id": 5,
+        "name": "Deluxe A-91234",
+        "images": [
+            "./room.jpg"
+        ],
+        "type": "Suite",
+        "price": 248,
+        "offer": 153,
+        "amenities": [
+            "AC",
+            "Shower",
+            "Double bed",
+            "Towel",
+            "Bathup",
+            "Cofee Set",
+            "LED TV",
+            "Wifi"
+        ],
+        "available": true
+    },
+    {
+        "id": 6,
+        "name": "Deluxe A-91234",
+        "images": [
+            "./room.jpg"
+        ],
+        "type": "Suite",
+        "price": 214,
+        "offer": 164,
+        "amenities": [
+            "AC",
+            "Shower",
+            "Double bed",
+            "Towel",
+            "Bathup",
+            "Cofee Set",
+            "LED TV",
+            "Wifi"
+        ],
+        "available": false
+    },
+    {
+        "id": 7,
+        "name": "Deluxe A-91234",
+        "images": [
+            "./room.jpg"
+        ],
+        "type": "Suite",
+        "price": 234,
+        "offer": 169,
+        "amenities": [
+            "AC",
+            "Shower",
+            "Double bed",
+            "Towel",
+            "Bathup",
+            "Cofee Set",
+            "LED TV",
+            "Wifi"
+        ],
+        "available": true
+    },
+    {
+        "id": 8,
+        "name": "Deluxe A-91234",
+        "images": [
+            "./room.jpg"
+        ],
+        "type": "Suite",
+        "price": 248,
+        "offer": 134,
+        "amenities": [
+            "AC",
+            "Shower",
+            "Double bed",
+            "Towel",
+            "Bathup",
+            "Cofee Set",
+            "LED TV",
+            "Wifi"
+        ],
+        "available": true
+    },
+    {
+        "id": 9,
+        "name": "Deluxe A-91234",
+        "images": [
+            "./room.jpg"
+        ],
+        "type": "Suite",
+        "price": 249,
+        "offer": 183,
+        "amenities": [
+            "AC",
+            "Shower",
+            "Double bed",
+            "Towel",
+            "Bathup",
+            "Cofee Set",
+            "LED TV",
+            "Wifi"
+        ],
+        "available": true
+    },
+    {
+        "id": 10,
+        "name": "Deluxe A-91234",
+        "images": [
+            "./room.jpg"
+        ],
+        "type": "Suite",
+        "price": 207,
+        "offer": 150,
+        "amenities": [
+            "AC",
+            "Shower",
+            "Double bed",
+            "Towel",
+            "Bathup",
+            "Cofee Set",
+            "LED TV",
+            "Wifi"
+        ],
+        "available": true
+    },
+    {
+        "id": 11,
+        "name": "Deluxe A-91234",
+        "images": [
+            "./room.jpg"
+        ],
+        "type": "Suite",
+        "price": 216,
+        "offer": 157,
+        "amenities": [
+            "AC",
+            "Shower",
+            "Double bed",
+            "Towel",
+            "Bathup",
+            "Cofee Set",
+            "LED TV",
+            "Wifi"
+        ],
+        "available": true
+    },
+    {
+        "id": 12,
+        "name": "Deluxe A-91234",
+        "images": [
+            "./room.jpg"
+        ],
+        "type": "Suite",
+        "price": 206,
+        "offer": 160,
+        "amenities": [
+            "AC",
+            "Shower",
+            "Double bed",
+            "Towel",
+            "Bathup",
+            "Cofee Set",
+            "LED TV",
+            "Wifi"
+        ],
+        "available": true
+    },
+    {
+        "id": 13,
+        "name": "Deluxe A-91234",
+        "images": [
+            "./room.jpg"
+        ],
+        "type": "Suite",
+        "price": 211,
+        "offer": 195,
+        "amenities": [
+            "AC",
+            "Shower",
+            "Double bed",
+            "Towel",
+            "Bathup",
+            "Cofee Set",
+            "LED TV",
+            "Wifi"
+        ],
+        "available": false
+    },
+    {
+        "id": 14,
+        "name": "Deluxe A-91234",
+        "images": [
+            "./room.jpg"
+        ],
+        "type": "Suite",
+        "price": 243,
+        "offer": 164,
+        "amenities": [
+            "AC",
+            "Shower",
+            "Double bed",
+            "Towel",
+            "Bathup",
+            "Cofee Set",
+            "LED TV",
+            "Wifi"
+        ],
+        "available": false
+    },
+    {
+        "id": 15,
+        "name": "Deluxe A-91234",
+        "images": [
+            "./room.jpg"
+        ],
+        "type": "Suite",
+        "price": 246,
+        "offer": 177,
+        "amenities": [
+            "AC",
+            "Shower",
+            "Double bed",
+            "Towel",
+            "Bathup",
+            "Cofee Set",
+            "LED TV",
+            "Wifi"
+        ],
+        "available": false
+    },
+    {
+        "id": 16,
+        "name": "Deluxe A-91234",
+        "images": [
+            "./room.jpg"
+        ],
+        "type": "Suite",
+        "price": 224,
+        "offer": 154,
+        "amenities": [
+            "AC",
+            "Shower",
+            "Double bed",
+            "Towel",
+            "Bathup",
+            "Cofee Set",
+            "LED TV",
+            "Wifi"
+        ],
+        "available": false
+    },
+    {
+        "id": 17,
+        "name": "Deluxe A-91234",
+        "images": [
+            "./room.jpg"
+        ],
+        "type": "Suite",
+        "price": 229,
+        "offer": 185,
+        "amenities": [
+            "AC",
+            "Shower",
+            "Double bed",
+            "Towel",
+            "Bathup",
+            "Cofee Set",
+            "LED TV",
+            "Wifi"
+        ],
+        "available": true
+    },
+    {
+        "id": 18,
+        "name": "Deluxe A-91234",
+        "images": [
+            "./room.jpg"
+        ],
+        "type": "Suite",
+        "price": 213,
+        "offer": 134,
+        "amenities": [
+            "AC",
+            "Shower",
+            "Double bed",
+            "Towel",
+            "Bathup",
+            "Cofee Set",
+            "LED TV",
+            "Wifi"
+        ],
+        "available": true
+    },
+    {
+        "id": 19,
+        "name": "Deluxe A-91234",
+        "images": [
+            "./room.jpg"
+        ],
+        "type": "Suite",
+        "price": 201,
+        "offer": 154,
+        "amenities": [
+            "AC",
+            "Shower",
+            "Double bed",
+            "Towel",
+            "Bathup",
+            "Cofee Set",
+            "LED TV",
+            "Wifi"
+        ],
+        "available": true
+    },
+    {
+        "id": 20,
+        "name": "Deluxe A-91234",
+        "images": [
+            "./room.jpg"
+        ],
+        "type": "Suite",
+        "price": 218,
+        "offer": 191,
+        "amenities": [
+            "AC",
+            "Shower",
+            "Double bed",
+            "Towel",
+            "Bathup",
+            "Cofee Set",
+            "LED TV",
+            "Wifi"
+        ],
+        "available": false
+    },
+    {
+        "id": 21,
+        "name": "Deluxe A-91234",
+        "images": [
+            "./room.jpg"
+        ],
+        "type": "Suite",
+        "price": 212,
+        "offer": 132,
+        "amenities": [
+            "AC",
+            "Shower",
+            "Double bed",
+            "Towel",
+            "Bathup",
+            "Cofee Set",
+            "LED TV",
+            "Wifi"
+        ],
+        "available": false
+    },
+    {
+        "id": 22,
+        "name": "Deluxe A-91234",
+        "images": [
+            "./room.jpg"
+        ],
+        "type": "Suite",
+        "price": 212,
+        "offer": 151,
+        "amenities": [
+            "AC",
+            "Shower",
+            "Double bed",
+            "Towel",
+            "Bathup",
+            "Cofee Set",
+            "LED TV",
+            "Wifi"
+        ],
+        "available": false
+    },
+    {
+        "id": 23,
+        "name": "Deluxe A-91234",
+        "images": [
+            "./room.jpg"
+        ],
+        "type": "Suite",
+        "price": 209,
+        "offer": 172,
+        "amenities": [
+            "AC",
+            "Shower",
+            "Double bed",
+            "Towel",
+            "Bathup",
+            "Cofee Set",
+            "LED TV",
+            "Wifi"
+        ],
+        "available": false
+    },
+    {
+        "id": 24,
+        "name": "Deluxe A-91234",
+        "images": [
+            "./room.jpg"
+        ],
+        "type": "Suite",
+        "price": 209,
+        "offer": 155,
+        "amenities": [
+            "AC",
+            "Shower",
+            "Double bed",
+            "Towel",
+            "Bathup",
+            "Cofee Set",
+            "LED TV",
+            "Wifi"
+        ],
+        "available": false
+    },
+    {
+        "id": 25,
+        "name": "Deluxe A-91234",
+        "images": [
+            "./room.jpg"
+        ],
+        "type": "Suite",
+        "price": 243,
+        "offer": 156,
+        "amenities": [
+            "AC",
+            "Shower",
+            "Double bed",
+            "Towel",
+            "Bathup",
+            "Cofee Set",
+            "LED TV",
+            "Wifi"
+        ],
+        "available": true
+    },
+    {
+        "id": 26,
+        "name": "Deluxe A-91234",
+        "images": [
+            "./room.jpg"
+        ],
+        "type": "Suite",
+        "price": 227,
+        "offer": 175,
+        "amenities": [
+            "AC",
+            "Shower",
+            "Double bed",
+            "Towel",
+            "Bathup",
+            "Cofee Set",
+            "LED TV",
+            "Wifi"
+        ],
+        "available": true
+    },
+    {
+        "id": 27,
+        "name": "Deluxe A-91234",
+        "images": [
+            "./room.jpg"
+        ],
+        "type": "Suite",
+        "price": 205,
+        "offer": 173,
+        "amenities": [
+            "AC",
+            "Shower",
+            "Double bed",
+            "Towel",
+            "Bathup",
+            "Cofee Set",
+            "LED TV",
+            "Wifi"
+        ],
+        "available": true
+    },
+    {
+        "id": 28,
+        "name": "Deluxe A-91234",
+        "images": [
+            "./room.jpg"
+        ],
+        "type": "Suite",
+        "price": 248,
+        "offer": 173,
+        "amenities": [
+            "AC",
+            "Shower",
+            "Double bed",
+            "Towel",
+            "Bathup",
+            "Cofee Set",
+            "LED TV",
+            "Wifi"
+        ],
+        "available": true
+    },
+    {
+        "id": 29,
+        "name": "Deluxe A-91234",
+        "images": [
+            "./room.jpg"
+        ],
+        "type": "Suite",
+        "price": 202,
+        "offer": 136,
+        "amenities": [
+            "AC",
+            "Shower",
+            "Double bed",
+            "Towel",
+            "Bathup",
+            "Cofee Set",
+            "LED TV",
+            "Wifi"
+        ],
+        "available": false
+    },
+    {
+        "id": 30,
+        "name": "Deluxe A-91234",
+        "images": [
+            "./room.jpg"
+        ],
+        "type": "Suite",
+        "price": 214,
+        "offer": 159,
+        "amenities": [
+            "AC",
+            "Shower",
+            "Double bed",
+            "Towel",
+            "Bathup",
+            "Cofee Set",
+            "LED TV",
+            "Wifi"
+        ],
+        "available": false
+    },
+    {
+        "id": 31,
+        "name": "Deluxe A-91234",
+        "images": [
+            "./room.jpg"
+        ],
+        "type": "Suite",
+        "price": 229,
+        "offer": 173,
+        "amenities": [
+            "AC",
+            "Shower",
+            "Double bed",
+            "Towel",
+            "Bathup",
+            "Cofee Set",
+            "LED TV",
+            "Wifi"
+        ],
+        "available": false
+    },
+    {
+        "id": 32,
+        "name": "Deluxe A-91234",
+        "images": [
+            "./room.jpg"
+        ],
+        "type": "Suite",
+        "price": 237,
+        "offer": 129,
+        "amenities": [
+            "AC",
+            "Shower",
+            "Double bed",
+            "Towel",
+            "Bathup",
+            "Cofee Set",
+            "LED TV",
+            "Wifi"
+        ],
+        "available": true
+    }
+]
