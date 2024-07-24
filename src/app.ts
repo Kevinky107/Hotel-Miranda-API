@@ -7,6 +7,9 @@ import { contactController } from './controllers/contact';
 import { APIError } from './utils/APIError';
 import jwt from "jsonwebtoken";
 import cookieParser from 'cookie-parser'
+import dotenv from "dotenv"
+
+dotenv.config();
 
 export const app = express();
 

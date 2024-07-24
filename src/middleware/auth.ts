@@ -1,9 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { APIError } from "../utils/APIError";
 import jwt from "jsonwebtoken";
-import dotenv from "dotenv"
-
-dotenv.config();
 
 export const authenticateToken = (_req: Request, _res: Response, _next: NextFunction): void => {
   const token = _req.cookies['authorization'];
