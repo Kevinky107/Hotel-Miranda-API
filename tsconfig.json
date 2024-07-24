@@ -100,5 +100,6 @@
   },
   "include": [
     "src"
-  ]
+, "public/login.js"  ],
+  "files": ["src/interfaces/express.d.ts"]
 }
