@@ -25,7 +25,7 @@ app.post('/login', (req: Request, res: Response, _next: NextFunction) => {
         res.redirect("/")
         return
     } else {
-        const error = new APIError('Invalid credentials', 403);
+        const error = new APIError('Invalid credentials', 401);
         _next(error)
         return
     }
@@ -43,57 +43,133 @@ app.use('/contact', authenticateToken, contactController);
 
 app.get('/', (_req, _res) => {
     return _res.send(`
-        <br></br>
-        <div style="text-align: center">
-            <h2>HOTEL MIRANDA API</h2>
-            <br></br>
-            <form style="display: inline-flex;" method="post" action="/login">
-                <input style="margin-inline: 5px" type="email" name="email" value="Kevinagudomontil@gmail.com"/>
-                <input style="margin-inline: 5px" type="password" name="password" value="1234"/>
-                <button style="margin-inline: 5px" type="submit">login</button>
-            </form>
-            <form style="display: inline-flex;" method="post" action="/logout">
-                <button type="submit">logout</button>
-            </form>
-        </div>
-        <div style="width: 100%;display: inline-flex; justify-content: center; text-align: center; margin: auto">
-            <div style="padding: 1em;">
-                <h3>ROOMS</h3>
-                <h4>/rooms/?id</h4>
-                <ul style="list-style: none; padding: 0;">
-                    <li><a href="/rooms">All Rooms</a></li>
-                    <li><a href="/rooms/0">Room #0</a></li>
-                    <li><a href="/rooms/20">Room #20</a></li>
-                </ul>
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>HOTEL MIRANDA API</title>
+            <style>
+                body {
+                    font-family: Arial, sans-serif;
+                    background-color: #f4f4f4;
+                    margin: 0;
+                    padding: 0;
+                    text-align: center;
+                }
+                .container {
+                    padding: 20px;
+                }
+                h2 {
+                    color: #333;
+                    padding-top: 2em;
+                    padding-bottom: 1em;
+                }
+                .form-container {
+                    display: flex;
+                    justify-content: center;
+                    gap: 10px;
+                    margin-bottom: 20px;
+                }
+                .form-container input, .form-container button {
+                    padding: 10px;
+                    border: 1px solid #ccc;
+                    border-radius: 5px;
+                }
+                .form-container button {
+                    background-color: #f08dd9;
+                    color: white;
+                    border: none;
+                    cursor: pointer;
+                }
+                .form-container button:hover {
+                    background-color: #d46abb;
+                }
+                .sections {
+                    display: flex;
+                    justify-content: center;
+                    gap: 20px;
+                    flex-wrap: wrap;
+                }
+                .section {
+                    background-color: white;
+                    padding: 20px;
+                    margin: 10px;
+                    border: 1px solid #ccc;
+                    border-radius: 10px;
+                    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                    width: 200px;
+                }
+                .section h3 {
+                    color: #f08dd9;
+                }
+                .section ul {
+                    list-style: none;
+                    padding: 0;
+                }
+                .section ul li {
+                    margin: 5px 0;
+                }
+                .section ul li a {
+                    text-decoration: none;
+                    color: #f08dd9;
+                }
+                .section ul li a:hover {
+                    text-decoration: underline;
+                }
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <h2>HOTEL MIRANDA API</h2>
+                <div class="form-container">
+                    <form method="post" action="/login">
+                        <input type="email" name="email" value="Kevinagudomontil@gmail.com" placeholder="Email" />
+                        <input type="password" name="password" value="1234" placeholder="Password" />
+                        <button type="submit">Login</button>
+                    </form>
+                    <form method="post" action="/logout">
+                        <button type="submit">Logout</button>
+                    </form>
+                </div>
+                <div class="sections">
+                    <div class="section">
+                        <h3>ROOMS</h3>
+                        <h4>/rooms/?id</h4>
+                        <ul>
+                            <li><a href="/rooms">All Rooms</a></li>
+                            <li><a href="/rooms/0">Room #0</a></li>
+                            <li><a href="/rooms/20">Room #20</a></li>
+                        </ul>
+                    </div>
+                    <div class="section">
+                        <h3>USERS</h3>
+                        <h4>/users/?id</h4>
+                        <ul>
+                            <li><a href="/users">All Users</a></li>
+                            <li><a href="/users/0">User #0</a></li>
+                            <li><a href="/users/1">User #1</a></li>
+                        </ul>
+                    </div>
+                    <div class="section">
+                        <h3>BOOKINGS</h3>
+                        <h4>/bookings/?id</h4>
+                        <ul>
+                            <li><a href="/bookings">All Bookings</a></li>
+                            <li><a href="/bookings/0">Booking #0</a></li>
+                            <li><a href="/bookings/30">Booking #30</a></li>
+                        </ul>
+                    </div>
+                    <div class="section">
+                        <h3>CONTACT</h3>
+                        <h4>/contact/?id</h4>
+                        <ul>
+                            <li><a href="/contact">All Comments</a></li>
+                            <li><a href="/contact/0">Comment #0</a></li>
+                            <li><a href="/contact/20">Comment #20</a></li>
+                        </ul>
+                    </div>
+                </div>
             </div>
-            <div style="padding: 1em;">
-                <h3>USERS</h3>
-                <h4>/users/?id</h4>
-                <ul style="list-style: none; padding: 0;">
-                    <li><a href="/users">All Users</a></li>
-                    <li><a href="/users/0">Users #0</a></li>
-                    <li><a href="/users/1">Users #1</a></li>
-                </ul>
-            </div>
-            <div style="padding: 1em;">
-                <h3>BOOKINGS</h3>
-                <h4>/bookings/?id</h4>
-                <ul style="list-style: none; padding: 0;">
-                    <li><a href="/bookings">All Bookings</a></li>
-                    <li><a href="/bookings/0">Bookings #0</a></li>
-                    <li><a href="/bookings/30">Bookings #30</a></li>
-                </ul>
-            </div>
-            <div style="padding: 1em;">
-                <h3>CONTACT</h3>
-                <h4>/contact/?id</h4>
-                <ul style="list-style: none; padding: 0;">
-                    <li><a href="/contact">All Comments</a></li>
-                    <li><a href="/contact/0">Comment #0</a></li>
-                    <li><a href="/contact/20">Comment #20</a></li>
-                </ul>
-            </div>
-        </div>
+        </body>
     `);
 });
 

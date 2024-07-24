@@ -12,7 +12,7 @@ export const authenticateToken = (_req: Request, _res: Response, _next: NextFunc
     
   jwt.verify(token, process.env.TOKEN_SECRET || 'secretKey', (err: any, user: any) => {
     if (err) {
-      const error = new APIError(err, 402)
+      const error = new APIError(err, 401)
       _next(error);
       return
     }
