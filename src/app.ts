@@ -22,7 +22,7 @@ app.post('/login', (req: Request, res: Response, next: NextFunction) => {
     if (email === 'Kevinagudomontil@gmail.com' && password === '1234') {
         const token = jwt.sign({ email, password }, process.env.TOKEN_SECRET || 'secretKey')
         res.cookie('authorization', token, {httpOnly: true});
-        res.json({ Login: token });
+        res.json({ Login: 'Cookie setted successfully' });
     } else {
         const error = new APIError('Invalid credentials', 401);
         next(error);
