@@ -17,23 +17,21 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}))
 app.use(cookieParser())
 
-app.post('/login', (req: Request, res: Response, _next: NextFunction) => {
+app.post('/login', (req: Request, res: Response, next: NextFunction) => {
     const { email, password } = req.body;
     if (email === 'Kevinagudomontil@gmail.com' && password === '1234') {
         const token = jwt.sign({ email, password }, process.env.TOKEN_SECRET || 'secretKey')
-        res.cookie('authorization', token, {httpOnly: true})
-        res.redirect("/")
-        return
+        res.cookie('authorization', token, {httpOnly: true});
+        res.json({ Login: token });
     } else {
         const error = new APIError('Invalid credentials', 401);
-        _next(error)
-        return
+        next(error);
     }
 });
 
 app.post('/logout', (_req: Request, res: Response, _next: NextFunction) => {
     res.clearCookie('authorization');
-    res.redirect('/');
+    res.json({ Logout: 'Cookie deleted successfully' });
 });
 
 app.use('/rooms', authenticateToken, roomController);
@@ -41,8 +39,8 @@ app.use('/users', authenticateToken, userController);
 app.use('/bookings', authenticateToken, bookingController);
 app.use('/contact', authenticateToken, contactController);
 
-app.get('/', (_req, _res) => {
-    return _res.send(`
+app.get('/', (_req, res) => {
+    return res.send(`
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -173,6 +171,6 @@ app.get('/', (_req, _res) => {
     `);
 });
 
-app.use((_error: APIError, _req: Request, _res: Response, _next: NextFunction) => {
-    _res.status(_error.status || 500).json({message: _error.message || "Something went wrong", error: _error.status})
+app.use((error: APIError, _req: Request, res: Response, _next: NextFunction) => {
+    res.status(error.status || 500).json({message: error.message || "Something went wrong", error: error.status})
 });
