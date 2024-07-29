@@ -5,35 +5,35 @@ import { userController } from './controllers/user';
 import { bookingController } from './controllers/booking';
 import { contactController } from './controllers/contact';
 import { APIError } from './utils/APIError';
-import jwt from "jsonwebtoken";
 import cookieParser from 'cookie-parser'
 import dotenv from "dotenv"
+import { LoginController } from './controllers/login';
+import { LogoutController } from './controllers/logout';
+const mongoose = require("mongoose");
 
 dotenv.config();
 
 export const app = express();
 
+const start = async () => {
+    try {
+      await mongoose.connect(
+        "mongodb://localhost:27017/hotel-miranda"
+      )
+    } catch (error) {
+      console.error(error);
+      process.exit(1);
+    }
+};
+  
+start();
+
 app.use(express.json());
 app.use(express.urlencoded({extended: true}))
 app.use(cookieParser())
 
-app.post('/login', (req: Request, res: Response, next: NextFunction) => {
-    const { email, password } = req.body;
-    if (email === 'Kevinagudomontil@gmail.com' && password === '1234') {
-        const token = jwt.sign({ email, password }, process.env.TOKEN_SECRET || 'secretKey')
-        res.cookie('authorization', token, {httpOnly: true});
-        res.json({ Login: 'Cookie setted successfully' });
-    } else {
-        const error = new APIError('Invalid credentials', 401);
-        next(error);
-    }
-});
-
-app.post('/logout', (_req: Request, res: Response, _next: NextFunction) => {
-    res.clearCookie('authorization');
-    res.json({ Logout: 'Cookie deleted successfully' });
-});
-
+app.use('/login', LoginController)
+app.use('/logout', LogoutController)
 app.use('/rooms', authenticateToken, roomController);
 app.use('/users', authenticateToken, userController);
 app.use('/bookings', authenticateToken, bookingController);
