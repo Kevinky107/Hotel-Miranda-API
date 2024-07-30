@@ -1,6 +1,8 @@
 import mongoose, { model } from 'mongoose';
 import { User } from '../interfaces/User';
+import { APIError } from '../utils/APIError';
 const { Schema } = mongoose;
+const bcrypt = require('bcrypt');
 
 const userSchema = new Schema<User> ({
     password: {
@@ -40,6 +42,24 @@ const userSchema = new Schema<User> ({
         type: Boolean,
         default: true
     }
+})
+
+userSchema.pre("save", async function (next) {
+    if(!this.isModified("password"))
+        return next();
+
+    try{
+        this.password = await bcrypt.hash(this.password, 10);
+        next();
+    } catch (error) {
+        if(error)
+            next()
+        else {
+            const newError = new APIError("Error while encrypting the password", 500);
+            next(newError);
+        }
+
+    } 
 })
 
 export const UserModel = model<User>('User', userSchema);

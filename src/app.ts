@@ -28,12 +28,13 @@ const start = async () => {
   
 start();
 
+
 app.use(express.json());
 app.use(express.urlencoded({extended: true}))
 app.use(cookieParser())
 
-app.use('/login', LoginController)
-app.use('/logout', LogoutController)
+app.use('/login', LoginController);
+app.use('/logout', LogoutController);
 app.use('/rooms', authenticateToken, roomController);
 app.use('/users', authenticateToken, userController);
 app.use('/bookings', authenticateToken, bookingController);
@@ -134,8 +135,10 @@ app.get('/', (_req, res) => {
                         <h4>/rooms/?id</h4>
                         <ul>
                             <li><a href="/rooms">All Rooms</a></li>
-                            <li><a href="/rooms/0">Room #0</a></li>
-                            <li><a href="/rooms/20">Room #20</a></li>
+                        </ul>
+                        <h4>/rooms/?id</h4>
+                        <ul>
+                            <li><a href="/rooms">All Rooms</a></li>
                         </ul>
                     </div>
                     <div class="section">
@@ -143,8 +146,6 @@ app.get('/', (_req, res) => {
                         <h4>/users/?id</h4>
                         <ul>
                             <li><a href="/users">All Users</a></li>
-                            <li><a href="/users/0">User #0</a></li>
-                            <li><a href="/users/1">User #1</a></li>
                         </ul>
                     </div>
                     <div class="section">
@@ -152,8 +153,6 @@ app.get('/', (_req, res) => {
                         <h4>/bookings/?id</h4>
                         <ul>
                             <li><a href="/bookings">All Bookings</a></li>
-                            <li><a href="/bookings/0">Booking #0</a></li>
-                            <li><a href="/bookings/30">Booking #30</a></li>
                         </ul>
                     </div>
                     <div class="section">
@@ -161,8 +160,6 @@ app.get('/', (_req, res) => {
                         <h4>/contact/?id</h4>
                         <ul>
                             <li><a href="/contact">All Comments</a></li>
-                            <li><a href="/contact/0">Comment #0</a></li>
-                            <li><a href="/contact/20">Comment #20</a></li>
                         </ul>
                     </div>
                 </div>

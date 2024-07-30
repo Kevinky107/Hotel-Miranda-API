@@ -33,7 +33,7 @@ const bookingSchema = new Schema<Booking> ({
         enum: ['Suite', 'Single Bed', 'Double Bed', 'Double Superior']
     },
     roomid: {
-        type: Number,
+        type: String,
         required: true
     },
     status: {
