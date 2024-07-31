@@ -4,14 +4,16 @@ import { RoomModel } from './src/schemas/Room';
 import { BookingModel } from './src/schemas/Booking';
 import { ContactModel } from './src/schemas/Contact';
 import { UserModel } from './src/schemas/User';
+import dotenv from "dotenv"
 
+dotenv.config();
 // VARIABLES
 
 const rooms: { _id: any; }[] = []
 
 const start = async () => {
     try {
-        await mongoose.connect("mongodb://localhost:27017/hotel-miranda");
+        await mongoose.connect(`mongodb+srv://Kevinky:${process.env.ATLAS_KEY}@kevin.cr5lhp0.mongodb.net/`);
         console.log('Database connection open');
 
         await RoomModel.deleteMany({})

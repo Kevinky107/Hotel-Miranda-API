@@ -18,7 +18,7 @@ export const app = express();
 const start = async () => {
     try {
       await mongoose.connect(
-        "mongodb://localhost:27017/hotel-miranda"
+        `mongodb+srv://Kevinky:${process.env.ATLAS_KEY}@kevin.cr5lhp0.mongodb.net/`
       )
     } catch (error) {
       console.error(error);
@@ -132,14 +132,14 @@ app.get('/', (_req, res) => {
                 <div class="sections">
                     <div class="section">
                         <h3>ROOMS</h3>
-                        <h4>/rooms/?id</h4>
+                        <h4>/rooms</h4>
                         <ul>
                             <li><a href="/rooms">All Rooms</a></li>
                         </ul>
-                        <h4>/rooms/?id</h4>
-                        <ul>
-                            <li><a href="/rooms">All Rooms</a></li>
-                        </ul>
+                        <h4>/rooms/:id</h4>
+                        <h4>/rooms/add</h4>
+                        <h4>/rooms/delete/:id</h4>
+                        <h4>/rooms/update/:id</h4>
                     </div>
                     <div class="section">
                         <h3>USERS</h3>
@@ -147,6 +147,10 @@ app.get('/', (_req, res) => {
                         <ul>
                             <li><a href="/users">All Users</a></li>
                         </ul>
+                        <h4>/users/:id</h4>
+                        <h4>/users/add</h4>
+                        <h4>/users/delete/:id</h4>
+                        <h4>/users/update/:id</h4>
                     </div>
                     <div class="section">
                         <h3>BOOKINGS</h3>
@@ -154,6 +158,10 @@ app.get('/', (_req, res) => {
                         <ul>
                             <li><a href="/bookings">All Bookings</a></li>
                         </ul>
+                        <h4>/bookings/:id</h4>
+                        <h4>/bookings/add</h4>
+                        <h4>/bookings/delete/:id</h4>
+                        <h4>/bookings/update/:id</h4>
                     </div>
                     <div class="section">
                         <h3>CONTACT</h3>
@@ -161,6 +169,10 @@ app.get('/', (_req, res) => {
                         <ul>
                             <li><a href="/contact">All Comments</a></li>
                         </ul>
+                        <h4>/contact/:id</h4>
+                        <h4>/contact/add</h4>
+                        <h4>/contact/delete/:id</h4>
+                        <h4>/contact/update/:id</h4>
                     </div>
                 </div>
             </div>
