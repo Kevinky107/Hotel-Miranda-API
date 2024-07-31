@@ -13,7 +13,7 @@ const rooms: { _id: any; }[] = []
 
 const start = async () => {
     try {
-        await mongoose.connect(`mongodb+srv://Kevinky:${process.env.ATLAS_KEY}@kevin.cr5lhp0.mongodb.net/`);
+        await mongoose.connect(`mongodb+srv://Kevinky:${process.env.ATLAS_KEY}@kevin.cr5lhp0.mongodb.net/Hotel-Miranda`);
         console.log('Database connection open');
 
         await RoomModel.deleteMany({})

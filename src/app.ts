@@ -18,7 +18,7 @@ export const app = express();
 const start = async () => {
     try {
       await mongoose.connect(
-        `mongodb+srv://Kevinky:${process.env.ATLAS_KEY}@kevin.cr5lhp0.mongodb.net/`
+        `mongodb+srv://Kevinky:${process.env.ATLAS_KEY}@kevin.cr5lhp0.mongodb.net/Hotel-Miranda`
       )
     } catch (error) {
       console.error(error);
