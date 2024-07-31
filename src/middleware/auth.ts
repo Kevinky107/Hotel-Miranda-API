@@ -3,7 +3,9 @@ import { APIError } from "../utils/APIError";
 import jwt from "jsonwebtoken";
 
 export const authenticateToken = (req: Request, _res: Response, next: NextFunction): void => {
-  const token = req.cookies['authorization'];
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
+
   if (!token) {
     const error = new APIError("Token not found", 401)
     next(error);

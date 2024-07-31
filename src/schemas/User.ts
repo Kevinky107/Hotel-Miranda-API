@@ -2,7 +2,7 @@ import mongoose, { model } from 'mongoose';
 import { User } from '../interfaces/User';
 import { APIError } from '../utils/APIError';
 const { Schema } = mongoose;
-const bcrypt = require('bcrypt');
+import bcrypt from 'bcryptjs';
 
 const userSchema = new Schema<User> ({
     password: {
