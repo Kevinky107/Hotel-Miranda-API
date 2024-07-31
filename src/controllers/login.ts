@@ -2,7 +2,7 @@ import express, { Request, Response, NextFunction } from 'express'
 import jwt from "jsonwebtoken";
 import { APIError } from '../utils/APIError';
 import { UserModel } from '../schemas/User';
-const bcrypt = require('bcrypt');
+import bcrypt from 'bcryptjs';
 
 export const LoginController = express.Router();
 
@@ -10,9 +10,9 @@ LoginController.post('/', async(req: Request, res: Response, next: NextFunction)
     const { email, password } = req.body;
     const check = await checkUser(email, password)
     if (check) {
-        const token = jwt.sign({ email, password }, process.env.TOKEN_SECRET || 'secretKey')
-        res.cookie('authorization', token, {httpOnly: true});
-        res.json({ Login: 'Cookie setted successfully' });
+        const token = jwt.sign({ email, password }, process.env.TOKEN_SECRET || 'secretKey', { expiresIn: '1h' })
+        req.headers['authorization'] = `Bearer ${token}`
+        res.json({Token: token})
     } else {
         const error = new APIError('Invalid credentials', 401);
         next(error);

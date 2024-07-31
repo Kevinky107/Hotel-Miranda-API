@@ -5,10 +5,8 @@ import { userController } from './controllers/user';
 import { bookingController } from './controllers/booking';
 import { contactController } from './controllers/contact';
 import { APIError } from './utils/APIError';
-import cookieParser from 'cookie-parser'
 import dotenv from "dotenv"
 import { LoginController } from './controllers/login';
-import { LogoutController } from './controllers/logout';
 const mongoose = require("mongoose");
 
 dotenv.config();
@@ -31,10 +29,8 @@ start();
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}))
-app.use(cookieParser())
 
 app.use('/login', LoginController);
-app.use('/logout', LogoutController);
 app.use('/rooms', authenticateToken, roomController);
 app.use('/users', authenticateToken, userController);
 app.use('/bookings', authenticateToken, bookingController);
@@ -119,23 +115,10 @@ app.get('/', (_req, res) => {
         <body>
             <div class="container">
                 <h2>HOTEL MIRANDA API</h2>
-                <div class="form-container">
-                    <form method="post" action="/login">
-                        <input type="email" name="email" value="Kevinagudomontil@gmail.com" placeholder="Email" />
-                        <input type="password" name="password" value="1234" placeholder="Password" />
-                        <button type="submit">Login</button>
-                    </form>
-                    <form method="post" action="/logout">
-                        <button type="submit">Logout</button>
-                    </form>
-                </div>
                 <div class="sections">
                     <div class="section">
                         <h3>ROOMS</h3>
                         <h4>/rooms</h4>
-                        <ul>
-                            <li><a href="/rooms">All Rooms</a></li>
-                        </ul>
                         <h4>/rooms/:id</h4>
                         <h4>/rooms/add</h4>
                         <h4>/rooms/delete/:id</h4>
@@ -144,9 +127,6 @@ app.get('/', (_req, res) => {
                     <div class="section">
                         <h3>USERS</h3>
                         <h4>/users/?id</h4>
-                        <ul>
-                            <li><a href="/users">All Users</a></li>
-                        </ul>
                         <h4>/users/:id</h4>
                         <h4>/users/add</h4>
                         <h4>/users/delete/:id</h4>
@@ -155,9 +135,6 @@ app.get('/', (_req, res) => {
                     <div class="section">
                         <h3>BOOKINGS</h3>
                         <h4>/bookings/?id</h4>
-                        <ul>
-                            <li><a href="/bookings">All Bookings</a></li>
-                        </ul>
                         <h4>/bookings/:id</h4>
                         <h4>/bookings/add</h4>
                         <h4>/bookings/delete/:id</h4>
@@ -166,9 +143,6 @@ app.get('/', (_req, res) => {
                     <div class="section">
                         <h3>CONTACT</h3>
                         <h4>/contact/?id</h4>
-                        <ul>
-                            <li><a href="/contact">All Comments</a></li>
-                        </ul>
                         <h4>/contact/:id</h4>
                         <h4>/contact/add</h4>
                         <h4>/contact/delete/:id</h4>
