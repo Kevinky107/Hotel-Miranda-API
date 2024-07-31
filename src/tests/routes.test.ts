@@ -1,9 +1,5 @@
 const request = require('supertest')
 const { app } = require('../app')
-import roomData from '../data/rooms.json'
-import userData from '../data/users.json'
-import bookingData from '../data/bookings.json'
-import contactData from '../data/comments.json'
 
 describe('Public Route "/"', () => {
     it('should return a HTML page without Token', async() => {
@@ -56,53 +52,53 @@ describe('Routes to GET all elements Json with authorization', () => {
     .get('/rooms')
     .set('Cookie', cookie);
 
-    expect(res.body).toEqual(roomData)
+    expect(res.statusCode).toEqual(200)
   })
   it('should return a Json with users trying to get all Users', async() => {
     const res = await request(app)
     .get('/users')
     .set('Cookie', cookie);
 
-    expect(res.body).toEqual(userData)
+    expect(res.statusCode).toEqual(200)
   })
   it('should return a Json with bookings trying to get all Bookings', async() => {
     const res = await request(app)
     .get('/bookings')
     .set('Cookie', cookie);
 
-    expect(res.body).toEqual(bookingData)
+    expect(res.statusCode).toEqual(200)
   })
   it('should return a Json with comments trying to get all Comments', async() => {
     const res = await request(app)
     .get('/contact')
     .set('Cookie', cookie);
 
-    expect(res.body).toEqual(contactData)
+    expect(res.statusCode).toEqual(200)
   })
 })
 
 describe('Routes to GET a single element Json without authorization', () => {
   it('should return an Error with number 401 trying to get the room with id 0', async() => {
     const res = await request(app)
-    .get('/rooms/0')
+    .get('/rooms/66a8dd493f6d282a217fc179')
 
     expect(res.body.error).toEqual(401)
   })
   it('should return an Error with number 401 trying to get all the user with id 0', async() => {
     const res = await request(app)
-    .get('/users/0')
+    .get('/users/66a8dd4a3f6d282a217fc1c9')
 
     expect(res.body.error).toEqual(401)
   })
   it('should return an Error with number 401 trying to get all the booking with id 0', async() => {
     const res = await request(app)
-    .get('/bookings/0')
+    .get('/bookings/66a8dd493f6d282a217fc18d')
 
     expect(res.body.error).toEqual(401)
   })
   it('should return an Error with number 401 trying to get all comment with id 0', async() => {
     const res = await request(app)
-    .get('/contact/0')
+    .get('/contact/66a8dd493f6d282a217fc1a1')
 
     expect(res.body.error).toEqual(401)
   })
@@ -120,30 +116,34 @@ describe('Routes to GET a single element Json with authorization', () => {
 
   it('should return the room Json trying to get the Room with id 0', async() => {
     const res = await request(app)
-    .get('/rooms/0')
+    .get('/rooms/66a8dd493f6d282a217fc179')
     .set('Cookie', cookie);
 
-    expect(res.body).toEqual(roomData[0])
+    expect(res.statusCode).toEqual(200)
+    expect(res.body._id).toEqual("66a8dd493f6d282a217fc179")
   })
   it('should return the user Json trying to get the User with id 0', async() => {
     const res = await request(app)
-    .get('/users/0')
+    .get('/users/66a8dd4a3f6d282a217fc1c9')
     .set('Cookie', cookie);
 
-    expect(res.body).toEqual(userData[0])
+    expect(res.statusCode).toEqual(200)
+    expect(res.body._id).toEqual("66a8dd4a3f6d282a217fc1c9")
   })
   it('should return the booking Json trying to get the booking with id 0', async() => {
     const res = await request(app)
-    .get('/bookings/0')
+    .get('/bookings/66a8dd493f6d282a217fc18d')
     .set('Cookie', cookie);
 
-    expect(res.body).toEqual(bookingData[0])
+    expect(res.statusCode).toEqual(200)
+    expect(res.body._id).toEqual("66a8dd493f6d282a217fc18d")
   })
   it('should return the contact Json trying to get the comment with id 0', async() => {
     const res = await request(app)
-    .get('/contact/0')
+    .get('/contact/66a8dd493f6d282a217fc1a1')
     .set('Cookie', cookie);
 
-    expect(res.body).toEqual(contactData[0])
+    expect(res.statusCode).toEqual(200)
+    expect(res.body._id).toEqual("66a8dd493f6d282a217fc1a1")
   })
 })

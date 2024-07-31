@@ -5,35 +5,36 @@ import { userController } from './controllers/user';
 import { bookingController } from './controllers/booking';
 import { contactController } from './controllers/contact';
 import { APIError } from './utils/APIError';
-import jwt from "jsonwebtoken";
 import cookieParser from 'cookie-parser'
 import dotenv from "dotenv"
+import { LoginController } from './controllers/login';
+import { LogoutController } from './controllers/logout';
+const mongoose = require("mongoose");
 
 dotenv.config();
 
 export const app = express();
 
+const start = async () => {
+    try {
+      await mongoose.connect(
+        `mongodb+srv://Kevinky:${process.env.ATLAS_KEY}@kevin.cr5lhp0.mongodb.net/Hotel-Miranda`
+      )
+    } catch (error) {
+      console.error(error);
+      process.exit(1);
+    }
+};
+  
+start();
+
+
 app.use(express.json());
 app.use(express.urlencoded({extended: true}))
 app.use(cookieParser())
 
-app.post('/login', (req: Request, res: Response, next: NextFunction) => {
-    const { email, password } = req.body;
-    if (email === 'Kevinagudomontil@gmail.com' && password === '1234') {
-        const token = jwt.sign({ email, password }, process.env.TOKEN_SECRET || 'secretKey')
-        res.cookie('authorization', token, {httpOnly: true});
-        res.json({ Login: 'Cookie setted successfully' });
-    } else {
-        const error = new APIError('Invalid credentials', 401);
-        next(error);
-    }
-});
-
-app.post('/logout', (_req: Request, res: Response, _next: NextFunction) => {
-    res.clearCookie('authorization');
-    res.json({ Logout: 'Cookie deleted successfully' });
-});
-
+app.use('/login', LoginController);
+app.use('/logout', LogoutController);
 app.use('/rooms', authenticateToken, roomController);
 app.use('/users', authenticateToken, userController);
 app.use('/bookings', authenticateToken, bookingController);
@@ -131,39 +132,47 @@ app.get('/', (_req, res) => {
                 <div class="sections">
                     <div class="section">
                         <h3>ROOMS</h3>
-                        <h4>/rooms/?id</h4>
+                        <h4>/rooms</h4>
                         <ul>
                             <li><a href="/rooms">All Rooms</a></li>
-                            <li><a href="/rooms/0">Room #0</a></li>
-                            <li><a href="/rooms/20">Room #20</a></li>
                         </ul>
+                        <h4>/rooms/:id</h4>
+                        <h4>/rooms/add</h4>
+                        <h4>/rooms/delete/:id</h4>
+                        <h4>/rooms/update/:id</h4>
                     </div>
                     <div class="section">
                         <h3>USERS</h3>
                         <h4>/users/?id</h4>
                         <ul>
                             <li><a href="/users">All Users</a></li>
-                            <li><a href="/users/0">User #0</a></li>
-                            <li><a href="/users/1">User #1</a></li>
                         </ul>
+                        <h4>/users/:id</h4>
+                        <h4>/users/add</h4>
+                        <h4>/users/delete/:id</h4>
+                        <h4>/users/update/:id</h4>
                     </div>
                     <div class="section">
                         <h3>BOOKINGS</h3>
                         <h4>/bookings/?id</h4>
                         <ul>
                             <li><a href="/bookings">All Bookings</a></li>
-                            <li><a href="/bookings/0">Booking #0</a></li>
-                            <li><a href="/bookings/30">Booking #30</a></li>
                         </ul>
+                        <h4>/bookings/:id</h4>
+                        <h4>/bookings/add</h4>
+                        <h4>/bookings/delete/:id</h4>
+                        <h4>/bookings/update/:id</h4>
                     </div>
                     <div class="section">
                         <h3>CONTACT</h3>
                         <h4>/contact/?id</h4>
                         <ul>
                             <li><a href="/contact">All Comments</a></li>
-                            <li><a href="/contact/0">Comment #0</a></li>
-                            <li><a href="/contact/20">Comment #20</a></li>
                         </ul>
+                        <h4>/contact/:id</h4>
+                        <h4>/contact/add</h4>
+                        <h4>/contact/delete/:id</h4>
+                        <h4>/contact/update/:id</h4>
                     </div>
                 </div>
             </div>
