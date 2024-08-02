@@ -3,7 +3,7 @@ import { APIError } from "../utils/APIError";
 import jwt from "jsonwebtoken";
 
 export const authenticateToken = (req: Request, _res: Response, next: NextFunction): void => {
-  const authHeader = req.headers['authorization'];
+  const authHeader = req.headers['authorization'] as string;
   const token = authHeader && authHeader.split(' ')[1];
 
   if (!token) {
