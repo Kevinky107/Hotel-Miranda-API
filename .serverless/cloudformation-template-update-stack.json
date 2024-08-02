@@ -162,7 +162,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/miranda-backend/dev/1722448422262-2024-07-31T17:53:42.262Z/miranda-backend.zip"
+          "S3Key": "serverless/miranda-backend/dev/1722522542444-2024-08-01T14:29:02.444Z/miranda-backend.zip"
         },
         "Handler": "dist/lambda.handler",
         "Runtime": "nodejs20.x",
@@ -411,7 +411,7 @@
         "AppLambdaPermissionApiGateway"
       ]
     },
-    "ApiGatewayDeployment1722448418126": {
+    "ApiGatewayDeployment1722522537620": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
