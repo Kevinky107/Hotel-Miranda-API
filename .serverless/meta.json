@@ -1,7 +1,7 @@
 {
   "C:\\Users\\Kevin\\Desktop\\Oxygen\\Hotel-Miranda-API": {
     "versionSfCore": null,
-    "versionFramework": "4.1.18",
+    "versionFramework": "4.1.19",
     "isWithinCompose": false,
     "isCompose": false,
     "composeOrgName": null,
@@ -20,7 +20,7 @@
               ],
               "artifactsS3KeyDirname": "serverless/miranda-backend/dev/code-artifacts",
               "artifact": "C:\\Users\\Kevin\\Desktop\\Oxygen\\Hotel-Miranda-API\\.serverless\\miranda-backend.zip",
-              "artifactDirectoryName": "serverless/miranda-backend/dev/1722522542444-2024-08-01T14:29:02.444Z"
+              "artifactDirectoryName": "serverless/miranda-backend/dev/1722588481813-2024-08-02T08:48:01.813Z"
             },
             "provider": {
               "name": "aws",
@@ -196,7 +196,7 @@
                         "S3Bucket": {
                           "Ref": "ServerlessDeploymentBucket"
                         },
-                        "S3Key": "serverless/miranda-backend/dev/1722522542444-2024-08-01T14:29:02.444Z/miranda-backend.zip"
+                        "S3Key": "serverless/miranda-backend/dev/1722588481813-2024-08-02T08:48:01.813Z/miranda-backend.zip"
                       },
                       "Handler": "dist/lambda.handler",
                       "Runtime": "nodejs20.x",
@@ -445,7 +445,7 @@
                       "AppLambdaPermissionApiGateway"
                     ]
                   },
-                  "ApiGatewayDeployment1722522537620": {
+                  "ApiGatewayDeployment1722588475518": {
                     "Type": "AWS::ApiGateway::Deployment",
                     "Properties": {
                       "RestApiId": {
@@ -720,7 +720,7 @@
         ],
         "artifactsS3KeyDirname": "serverless/miranda-backend/dev/code-artifacts",
         "artifact": "C:\\Users\\Kevin\\Desktop\\Oxygen\\Hotel-Miranda-API\\.serverless\\miranda-backend.zip",
-        "artifactDirectoryName": "serverless/miranda-backend/dev/1722522542444-2024-08-01T14:29:02.444Z"
+        "artifactDirectoryName": "serverless/miranda-backend/dev/1722588481813-2024-08-02T08:48:01.813Z"
       },
       "provider": {
         "name": "aws",
@@ -896,7 +896,7 @@
                   "S3Bucket": {
                     "Ref": "ServerlessDeploymentBucket"
                   },
-                  "S3Key": "serverless/miranda-backend/dev/1722522542444-2024-08-01T14:29:02.444Z/miranda-backend.zip"
+                  "S3Key": "serverless/miranda-backend/dev/1722588481813-2024-08-02T08:48:01.813Z/miranda-backend.zip"
                 },
                 "Handler": "dist/lambda.handler",
                 "Runtime": "nodejs20.x",
@@ -1145,7 +1145,7 @@
                 "AppLambdaPermissionApiGateway"
               ]
             },
-            "ApiGatewayDeployment1722522537620": {
+            "ApiGatewayDeployment1722588475518": {
               "Type": "AWS::ApiGateway::Deployment",
               "Properties": {
                 "RestApiId": {
@@ -1421,7 +1421,7 @@
     "userEmail": "kevinkyxd@gmail.com",
     "serviceProviderAwsCredentials": "<REDACTED>",
     "serviceProviderAwsAccountId": "058264326297",
-    "versionSf": "4.1.18",
+    "versionSf": "4.1.19",
     "serviceProviderAwsCfStackName": "miranda-backend-dev",
     "serviceProviderAwsCfStackId": "arn:aws:cloudformation:eu-west-3:058264326297:stack/miranda-backend-dev/65344e50-4f41-11ef-a87a-0e473d7483f5",
     "serviceProviderAwsCfStackCreated": "2024-07-31T13:32:56.177Z",

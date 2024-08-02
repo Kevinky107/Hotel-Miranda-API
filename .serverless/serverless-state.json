@@ -178,7 +178,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/miranda-backend/dev/1722522542444-2024-08-01T14:29:02.444Z/miranda-backend.zip"
+                "S3Key": "serverless/miranda-backend/dev/1722588481813-2024-08-02T08:48:01.813Z/miranda-backend.zip"
               },
               "Handler": "dist/lambda.handler",
               "Runtime": "nodejs20.x",
@@ -427,7 +427,7 @@
               "AppLambdaPermissionApiGateway"
             ]
           },
-          "ApiGatewayDeployment1722522537620": {
+          "ApiGatewayDeployment1722588475518": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -689,7 +689,7 @@
         ],
         "artifactsS3KeyDirname": "serverless/miranda-backend/dev/code-artifacts",
         "artifact": "C:\\Users\\Kevin\\Desktop\\Oxygen\\Hotel-Miranda-API\\.serverless\\miranda-backend.zip",
-        "artifactDirectoryName": "serverless/miranda-backend/dev/1722522542444-2024-08-01T14:29:02.444Z"
+        "artifactDirectoryName": "serverless/miranda-backend/dev/1722588481813-2024-08-02T08:48:01.813Z"
       },
       "provider": {
         "$ref": "$[\"service\"][\"provider\"]"
@@ -707,7 +707,7 @@
     "artifact": "C:\\Users\\Kevin\\Desktop\\Oxygen\\Hotel-Miranda-API\\.serverless\\miranda-backend.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/miranda-backend/dev/1722522542444-2024-08-01T14:29:02.444Z",
+    "artifactDirectoryName": "serverless/miranda-backend/dev/1722588481813-2024-08-02T08:48:01.813Z",
     "artifact": "miranda-backend.zip"
   }
 }
