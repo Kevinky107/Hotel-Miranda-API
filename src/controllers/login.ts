@@ -11,7 +11,7 @@ LoginController.post('/', async(req: Request, res: Response, next: NextFunction)
     const check = await checkUser(email, password)
     if (check) {
         const token = jwt.sign({ email, password }, process.env.TOKEN_SECRET || 'secretKey', { expiresIn: '1h' })
-        req.headers['authorization'] = `Bearer ${token}`
+        req.headers['Authorization'] = `Bearer ${token}`
         res.json({Token: token})
     } else {
         const error = new APIError('Invalid credentials', 401);
