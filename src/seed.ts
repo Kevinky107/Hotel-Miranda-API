@@ -22,7 +22,7 @@ const start = async () => {
         await UserModel.deleteMany({})
 
         // ROOM
-        const randomRoomImages = (): string => {
+        /*const randomRoomImages = (): string => {
             const pictures = [
                 "https://unsplash.com/es/fotos/estructura-de-cama-de-madera-marron-con-funda-blanca-junto-a-mesita-de-noche-de-madera-marron-FqqiAvJejto",
                 "https://unsplash.com/es/fotos/cama-tapizada-blanca-capitone-HD7QBx2Yfa4",
@@ -32,17 +32,18 @@ const start = async () => {
             ]   
 
             return pictures[Math.floor( Math.random() * pictures.length )]
-        }
+        }*/
 
         const createRandomRoom = () => {
             const price = faker.number.int({min: 200, max: 400})
             return new RoomModel({
                 name: `Room ${faker.number.int({ max: 999 })}`,
-                images: [randomRoomImages()],
+                images: [faker.image.urlPicsumPhotos()],
                 type: faker.helpers.arrayElement(['Suite', 'Single Bed', 'Double Bed', 'Double Superior']),
                 price: price,
                 offer: faker.number.int({min: 100, max: price}),
-                amenities: faker.helpers.arrayElements(['AC','Shower','Double Bed','Towel','Bathup','Cofee Set','LED TV','Wifi'])
+                amenities: faker.helpers.arrayElements(['AC','Shower','Double Bed','Towel','Bathup','Cofee Set','LED TV','Wifi']),
+                available: faker.datatype.boolean(0.7)
             })
         }
 
@@ -55,7 +56,7 @@ const start = async () => {
 
         // BOOKING 
 
-        const randomProfilePicture = (): string => {
+        /*const randomProfilePicture = (): string => {
             const pictures = [
                 "https://unsplash.com/es/fotos/una-mujer-con-un-afro-mira-a-la-camara-_cvwXhGqG-o",
                 "https://unsplash.com/es/fotos/mujer-mirando-directamente-a-la-camara-cerca-de-la-pared-rosa-bqe0J0b26RQ",
@@ -64,7 +65,7 @@ const start = async () => {
                 "https://unsplash.com/es/fotos/derek-fisher-d0peGya6R5Y"
             ] 
             return pictures[Math.floor( Math.random() * pictures.length )]
-        }
+        }^*/
 
         const bookingNote = (): null | string => {
             return Math.random() > 0.6 ? faker.lorem.paragraph({ min: 1, max: 3 }) : null
@@ -80,7 +81,7 @@ const start = async () => {
             const later = new Date(reference.getTime() + faker.number.int({min: 86400000, max: 2160000000}))
             return new BookingModel({
                 guest: faker.person.fullName(),
-                picture: randomProfilePicture(),
+                picture: faker.image.avatar(),
                 orderdate: faker.date.past({ years: 1 }).toISOString().slice(0, 10),
                 checkin: faker.defaultRefDate().toISOString().slice(0, 10),
                 checkout: later.toISOString().slice(0, 10),
@@ -129,7 +130,7 @@ const start = async () => {
                 name: `${firstname} ${lastname}`,
                 email: faker.internet.email({ firstName: firstname, lastName: lastname }),
                 phone: faker.phone.number(),
-                picture: randomProfilePicture(),
+                picture: faker.image.avatarGitHub(),
                 post: faker.helpers.arrayElement(['Manager', 'Room Service', 'Reception']),
                 postdescription: faker.lorem.paragraph({ min: 1, max: 3 }),
                 state: faker.datatype.boolean(0.9),
@@ -149,7 +150,7 @@ const start = async () => {
                 name: `Kevin Agudo Montil`,
                 email: `Kevinagudomontil@gmail.com`,
                 phone: `616422058`,
-                picture: randomProfilePicture(),
+                picture: "yo.jpeg",
                 post: `Manager`,
                 postdescription: `full stack developer, is in charge of the operation of the website, its database and its visualization as well as its maintenance`,
                 state: true,
