@@ -1,179 +1,188 @@
-import { faker } from '@faker-js/faker';
-import mongoose from 'mongoose';
-import { RoomModel } from './schemas/Room';
-import { BookingModel } from './schemas/Booking';
-import { ContactModel } from './schemas/Contact';
-import { UserModel } from './schemas/User';
 import dotenv from "dotenv"
+import mysql from 'mysql2';
 
 dotenv.config();
-// VARIABLES
-
-const rooms: { _id: any; }[] = []
 
 const start = async () => {
-    try {
-        await mongoose.connect(`mongodb+srv://Kevinky:${process.env.ATLAS_KEY}@kevin.cr5lhp0.mongodb.net/Hotel-Miranda`);
-        console.log('Database connection open');
 
-        await RoomModel.deleteMany({})
-        await BookingModel.deleteMany({})
-        await ContactModel.deleteMany({})
-        await UserModel.deleteMany({})
+    const connection = await mysql.createConnection({
+        host: 'localhost',
+        user: 'root',
+        database: 'hotelmiranda',
+        port: 3306,
+        password: process.env.MYSQL_PASSWORD
+    });
 
-        // ROOM
-        /*const randomRoomImages = (): string => {
-            const pictures = [
-                "https://unsplash.com/es/fotos/estructura-de-cama-de-madera-marron-con-funda-blanca-junto-a-mesita-de-noche-de-madera-marron-FqqiAvJejto",
-                "https://unsplash.com/es/fotos/cama-tapizada-blanca-capitone-HD7QBx2Yfa4",
-                "https://unsplash.com/es/fotos/estructura-de-cama-de-madera-marron-con-funda-blanca-junto-a-mesita-de-noche-de-madera-marron-FqqiAvJejto",
-                "https://unsplash.com/es/fotos/camas-grisesprea-w72a24brINI",
-                "https://unsplash.com/es/fotos/vista-del-dormitorio-con-lampara-colgante-esferica-f1Rd2HsoKnk"
-            ]   
-
-            return pictures[Math.floor( Math.random() * pictures.length )]
-        }*/
-
-        const createRandomRoom = () => {
-            const price = faker.number.int({min: 200, max: 400})
-            return new RoomModel({
-                name: `Room ${faker.number.int({ max: 999 })}`,
-                images: [faker.image.urlPicsumPhotos()],
-                type: faker.helpers.arrayElement(['Suite', 'Single Bed', 'Double Bed', 'Double Superior']),
-                price: price,
-                offer: faker.number.int({min: 100, max: price}),
-                amenities: faker.helpers.arrayElements(['AC','Shower','Double Bed','Towel','Bathup','Cofee Set','LED TV','Wifi']),
-                available: faker.datatype.boolean(0.7)
-            })
+    try{
+       
+        const deleteTables = async () => {
+            const sql = `DROP TABLE IF EXISTS amenities, booking_status, bookings, contacts, posts, room_booking, room_types, rooms, rooms_images, users;`
+            connection.query(sql);
         }
 
-        for(let i = 0; i < 10; i++){
-            const newRoom = createRandomRoom();
-            await newRoom.save();
-            rooms.push(newRoom)
-        }
-        console.log('Rooms created');
-
-        // BOOKING 
-
-        /*const randomProfilePicture = (): string => {
-            const pictures = [
-                "https://unsplash.com/es/fotos/una-mujer-con-un-afro-mira-a-la-camara-_cvwXhGqG-o",
-                "https://unsplash.com/es/fotos/mujer-mirando-directamente-a-la-camara-cerca-de-la-pared-rosa-bqe0J0b26RQ",
-                "https://unsplash.com/es/fotos/foto-en-escala-de-grises-de-un-hombre-XHVpWcr5grQ",
-                "https://unsplash.com/es/fotos/foto-en-escala-de-grises-de-mujer-con-abrigo-y-anteojos-hpZ6NCRLe1A",
-                "https://unsplash.com/es/fotos/derek-fisher-d0peGya6R5Y"
-            ] 
-            return pictures[Math.floor( Math.random() * pictures.length )]
-        }^*/
-
-        const bookingNote = (): null | string => {
-            return Math.random() > 0.6 ? faker.lorem.paragraph({ min: 1, max: 3 }) : null
+        const createPostsTable = async () => {
+            const sql = `CREATE TABLE Posts (
+                _id int AUTO_INCREMENT,
+                name varchar(255),
+                PRIMARY KEY (_id)
+            );`
+            connection.query(sql);
         }
 
-        const getRoomId = () => {
-            return rooms[Math.floor(Math.random() * rooms.length )]._id.toString()
+        const createRoomTypesTable = async () => {
+            const sql = `CREATE TABLE Room_Types (
+                _id int AUTO_INCREMENT,
+                name varchar(255),
+                PRIMARY KEY (_id)
+            );`
+            connection.query(sql);
         }
 
-        const createRandomBooking = () => {
-            const reference = faker.date.recent();
-            faker.setDefaultRefDate(reference);
-            const later = new Date(reference.getTime() + faker.number.int({min: 86400000, max: 2160000000}))
-            return new BookingModel({
-                guest: faker.person.fullName(),
-                picture: faker.image.avatar(),
-                orderdate: faker.date.past({ years: 1 }).toISOString().slice(0, 10),
-                checkin: faker.defaultRefDate().toISOString().slice(0, 10),
-                checkout: later.toISOString().slice(0, 10),
-                note: bookingNote(),
-                roomtype: faker.helpers.arrayElement(['Suite', 'Single Bed', 'Double Bed', 'Double Superior']),
-                roomid: getRoomId(),
-                status: faker.helpers.arrayElement(['check in', 'check out', 'in progress'])
-            })
+        const createBookingStatusTable = async () => {
+            const sql = `CREATE TABLE Booking_Status (
+                _id int AUTO_INCREMENT,
+                name varchar(255),
+                PRIMARY KEY (_id)
+            );`
+            connection.query(sql);
         }
 
-        for(let i = 0; i < 10; i++){
-            const newBooking = createRandomBooking();
-            await newBooking.save();
-        }
-        console.log('Bookings created');
-
-        // CONTACT
-
-        const createRandomContact = () => {
-            const firstname = faker.person.firstName();
-            const lastname = faker.person.lastName();
-            return new ContactModel({
-                date: faker.date.past({years: 10}).toISOString().slice(0, 10),
-                customer: `${firstname} ${lastname}`,
-                email: faker.internet.email({ firstName: firstname, lastName: lastname }),
-                phone: faker.phone.number(),
-                comment: faker.lorem.paragraph({ min: 1, max: 5 }),
-                archived: faker.datatype.boolean(0.2)
-            })
+        const createUsersTable = async () => {
+            const sql = `CREATE TABLE Users (
+                _id int AUTO_INCREMENT,
+                name varchar(255),
+                password varchar(255),
+                email varchar(255),
+                picture varchar(255),
+                post int,
+                phone varchar(255),
+                postdescription varchar(255),
+                startdate varchar(255),
+                state boolean,
+                PRIMARY KEY (_id),
+                FOREIGN KEY (post) REFERENCES Posts (_id)
+            );`
+            connection.query(sql);
         }
 
-        for(let i = 0; i < 10; i++){
-            const newContact = createRandomContact();
-            await newContact.save();
-        }
-        console.log('Contacts created');
-
-        // USER
-
-        const createRandomUser = () => {
-            const firstname = faker.person.firstName();
-            const lastname = faker.person.lastName();
-            const password = faker.internet.password();    
-            return new UserModel({
-                startdate: faker.date.past({years: 10}).toISOString().slice(0, 10),
-                name: `${firstname} ${lastname}`,
-                email: faker.internet.email({ firstName: firstname, lastName: lastname }),
-                phone: faker.phone.number(),
-                picture: faker.image.avatarGitHub(),
-                post: faker.helpers.arrayElement(['Manager', 'Room Service', 'Reception']),
-                postdescription: faker.lorem.paragraph({ min: 1, max: 3 }),
-                state: faker.datatype.boolean(0.9),
-                password: password
-            })
+        const createContactsTable = async () => {
+            const sql = `CREATE TABLE Contacts (
+                _id int AUTO_INCREMENT,
+                date varchar(255),
+                customer varchar(255),
+                email varchar(255),
+                phone varchar(255),
+                comment varchar(255),
+                archived boolean,
+                PRIMARY KEY (_id)
+            );`
+            connection.query(sql);
         }
 
-        for(let i = 0; i < 10; i++){
-            const user = createRandomUser();
-            await user.save();
+        const createRoomsTable = async () => {
+            const sql = `CREATE TABLE Rooms (
+                _id int AUTO_INCREMENT,
+                name varchar(255),
+                images int,
+                type int,
+                price int,
+                offer int,
+                amenities int,
+                available boolean,
+                PRIMARY KEY (_id)
+            );`
+            connection.query(sql);
         }
 
-        const createMe = () => {
-            const password = '1234'
-            return new UserModel({
-                startdate: "2024-06-24",
-                name: `Kevin Agudo Montil`,
-                email: `Kevinagudomontil@gmail.com`,
-                phone: `616422058`,
-                picture: "yo.jpeg",
-                post: `Manager`,
-                postdescription: `full stack developer, is in charge of the operation of the website, its database and its visualization as well as its maintenance`,
-                state: true,
-                password: password
-            })
+        const createAmenitiesTable = async () => {
+            const sql = `CREATE TABLE Amenities (
+                _id int AUTO_INCREMENT,
+                room_id int,
+                name varchar(255),
+                PRIMARY KEY (_id),
+                FOREIGN KEY (room_id) REFERENCES Rooms(_id)
+            );`
+            connection.query(sql);
         }
 
-        const me = createMe();
-        await me.save();
+        const createRoomImagesTable = async () => {
+            const sql = `CREATE TABLE Rooms_Images (
+                _id int AUTO_INCREMENT,
+                url varchar(255),
+                room_id int,
+                PRIMARY KEY (_id)
+            );`
+            connection.query(sql);
+        }
 
-        console.log('Users created');
+        const addAlterRoomImage = async () => {
+            const sql = `ALTER TABLE Rooms_Images
+            ADD CONSTRAINT fk_room_images
+            FOREIGN KEY (room_id) REFERENCES Rooms(_id);`
+            connection.query(sql);
+        }
 
-    } catch (error) {
+        const addAlterRooms = async () => {
+            const sql = `ALTER TABLE Rooms
+            ADD CONSTRAINT fk_room_images_in_rooms
+            FOREIGN KEY (images) REFERENCES Rooms_Images(_id),
+            ADD CONSTRAINT fk_amenities
+            FOREIGN KEY (amenities) REFERENCES Amenities(_id),
+            ADD CONSTRAINT fk_type
+            FOREIGN KEY (type) REFERENCES Room_Types(_id);`
+            connection.query(sql);
+        }
 
-        console.error(error);
-        process.exit(1);
+        const createBookingsTable = async () => {
+            const sql = `CREATE TABLE Bookings (
+                _id int AUTO_INCREMENT,
+                guest varchar(255),
+                picture varchar(255),
+                checkin varchar(255),
+                checkout varchar(255),
+                note varchar(255),
+                roomtype int, 
+                roomid int,
+                status int,
+                PRIMARY KEY (_id),
+                FOREIGN KEY (roomtype) REFERENCES Room_Types (_id),
+                FOREIGN KEY (roomid) REFERENCES Rooms (_id),
+                FOREIGN KEY (status) REFERENCES Booking_Status (_id)
+            );`
+            connection.query(sql);
+        }
 
-    } finally {
+        const createRoomBookingTable = async () => {
+            const sql = `CREATE TABLE Room_Booking (
+                _id int AUTO_INCREMENT,
+                booking_id int,
+                room_id int, 
+                PRIMARY KEY (_id),
+                FOREIGN KEY (booking_id) REFERENCES Bookings (_id),
+                FOREIGN KEY (room_id) REFERENCES Rooms (_id)
+            );`
+            connection.query(sql);
+        }
 
-        await mongoose.connection.close();
-        console.log('Database connection closed');
+        deleteTables()
+        createPostsTable()
+        createRoomTypesTable()
+        createBookingStatusTable()
+        createUsersTable()
+        createContactsTable()
+        createRoomsTable()
+        createAmenitiesTable()
+        createRoomImagesTable()
+        addAlterRoomImage()
+        addAlterRooms()
+        createBookingsTable()
+        createRoomBookingTable()
+        connection.end();
 
+    } catch(e){
+        console.log(e)
     }
+    
 };
 
 start();
