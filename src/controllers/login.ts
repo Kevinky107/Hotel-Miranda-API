@@ -10,10 +10,11 @@ interface userdata {
     email : string | null,
     password : string | null, 
     name: string | null,
-    picture : string | null
+    picture : string | null,
+    _id : string | null
 }
 
-let userChecked: userdata = {email: null, password: null, name: null, picture: null};
+let userChecked: userdata = {email: null, password: null, name: null, picture: null, _id: null};
 
 LoginController.post('/', async(req: Request, res: Response, next: NextFunction) => {
     const { email, password } = req.body;
@@ -32,7 +33,7 @@ async function checkUser(email: string, password: string): Promise<boolean> {
     try {
         const user = await UserModel.findOne({email: email}).exec();
         if(user) {
-            userChecked = {email: user.email, password: user.password, name: user.name, picture: user.picture};
+            userChecked = {email: user.email, password: user.password, name: user.name, picture: user.picture, _id: String(user._id)};
             return await bcrypt.compare(password, user.password);
         }
         else

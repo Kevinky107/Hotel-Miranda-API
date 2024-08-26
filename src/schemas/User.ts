@@ -62,4 +62,20 @@ userSchema.pre("save", async function (next) {
     } 
 })
 
+userSchema.pre("findOneAndUpdate", async function (next) {
+    const update: any = this.getUpdate();
+
+    if (update && update.password) {
+        try {
+            update.password = await bcrypt.hash(update.password, 10);
+            this.setUpdate(update);
+        } catch (error) {
+            const newError = new APIError("Error while encrypting the password", 500);
+            return next(newError);
+        }
+    }
+    
+    next();
+});
+
 export const UserModel = model<User>('User', userSchema);
