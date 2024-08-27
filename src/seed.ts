@@ -92,13 +92,12 @@ const start = async () => {
             _id int AUTO_INCREMENT,
             guest varchar(255),
             picture varchar(255),
+            orderdate varchar(255),
             checkin varchar(255),
             checkout varchar(255),
             note varchar(255),
-            roomid int,
             status varchar(255),
-            PRIMARY KEY (_id),
-            FOREIGN KEY (roomid) REFERENCES Rooms (_id)
+            PRIMARY KEY (_id)
         );`
         connection.query(sql);
     }
@@ -267,9 +266,62 @@ const start = async () => {
 
     }
 
+    const insertDataIntoBookings = () => {
+
+        const sql = 'INSERT INTO Bookings (guest, picture, orderdate, checkin, checkout, note, status) VALUES (?, ?, ?, ?, ?, ?, ?)'
+
+        const bookingNote = (): null | string => {
+            return Math.random() > 0.6 ? faker.lorem.paragraph({ min: 1, max: 3 }) : null
+        }
+
+        const createRandomBooking = () => {
+            const reference = faker.date.recent();
+            faker.setDefaultRefDate(reference);
+            const later = new Date(reference.getTime() + faker.number.int({min: 86400000, max: 2160000000}))
+            const booking = {
+                guest: faker.person.fullName(),
+                picture: faker.image.avatarGitHub(),
+                orderdate: faker.date.past({ years: 1 }).toISOString().slice(0, 10),
+                checkin: faker.defaultRefDate().toISOString().slice(0, 10),
+                checkout: later.toISOString().slice(0, 10),
+                note: bookingNote(),
+                status: faker.helpers.arrayElement(['check in', 'check out', 'in progress'])
+            }
+
+            const values = [booking.guest, booking.picture, booking.orderdate, booking.checkin, booking.checkout, booking.note, booking.status]
+
+            connection.execute(sql, values)
+        }
+
+        for(let i = 0; i < num; i++) {
+            createRandomBooking()
+        }
+
+    }
+
+    const insertDataIntoRoomBooking = () => {
+
+        const sql = 'INSERT INTO Room_Booking (booking_id, room_id) VALUES (?, ?)'
+
+        const createRandomAmenities = (bid: number, rid: number) => {
+
+            const values = [bid, rid]
+
+            connection.execute(sql, values)
+        }
+
+        for(let i = 1; i <= num; i++) {
+            for(let j = num; j > 0; j--){
+                createRandomAmenities(i,j)
+            }
+        }
+
+    }
+
     try{
 
         deleteTables()
+
         createUsersTable()
         createContactsTable()
         createRoomsTable()
@@ -283,6 +335,8 @@ const start = async () => {
         insertDataIntoRooms()
         insertDataIntoAmenities()
         insertDataIntoRoomImages()
+        insertDataIntoBookings()
+        insertDataIntoRoomBooking()
 
         connection.end();
 
