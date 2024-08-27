@@ -56,11 +56,9 @@ const start = async () => {
         const sql = `CREATE TABLE Rooms (
             _id int AUTO_INCREMENT,
             name varchar(255),
-            images int,
-            type int,
+            type varchar(255),
             price int,
             offer int,
-            amenities int,
             available boolean,
             PRIMARY KEY (_id)
         );`
@@ -83,24 +81,9 @@ const start = async () => {
             _id int AUTO_INCREMENT,
             url varchar(255),
             room_id int,
-            PRIMARY KEY (_id)
+            PRIMARY KEY (_id),
+            FOREIGN KEY (room_id) REFERENCES Rooms(_id)
         );`
-        connection.query(sql);
-    }
-
-    const addAlterRoomImage = async () => {
-        const sql = `ALTER TABLE Rooms_Images
-        ADD CONSTRAINT fk_room_images
-        FOREIGN KEY (room_id) REFERENCES Rooms(_id);`
-        connection.query(sql);
-    }
-
-    const addAlterRooms = async () => {
-        const sql = `ALTER TABLE Rooms
-        ADD CONSTRAINT fk_room_images_in_rooms
-        FOREIGN KEY (images) REFERENCES Rooms_Images(_id),
-        ADD CONSTRAINT fk_amenities
-        FOREIGN KEY (amenities) REFERENCES Amenities(_id)`
         connection.query(sql);
     }
 
@@ -112,7 +95,6 @@ const start = async () => {
             checkin varchar(255),
             checkout varchar(255),
             note varchar(255),
-            roomtype varchar(255), 
             roomid int,
             status varchar(255),
             PRIMARY KEY (_id),
@@ -207,12 +189,83 @@ const start = async () => {
             connection.execute(sql, values)
         }
 
-        for(let i = 0; i < num-1; i++) {
+        for(let i = 0; i < num; i++) {
             createRandomContact()
         }
 
     }
 
+    const insertDataIntoRooms = () => {
+
+        const sql = 'INSERT INTO Rooms (name, type, price, offer, available) VALUES (?, ?, ?, ?, ?)'
+
+        const createRandomRoom = () => {
+            const price = faker.number.int({min: 200, max: 400})
+            const room = {
+                name: `Room ${faker.number.int({ max: 999 })}`,
+                type: faker.helpers.arrayElement(['Suite', 'Single Bed', 'Double Bed', 'Double Superior']),
+                price: price,
+                offer: faker.number.int({min: 100, max: price}),
+                available: faker.datatype.boolean(0.7)
+            }
+
+            const values = [room.name, room.type, room.price, room.offer, room.available]
+
+            connection.execute(sql, values)
+        }
+
+        for(let i = 0; i < num; i++) {
+            createRandomRoom()
+        }
+
+    }
+
+    const insertDataIntoAmenities = () => {
+
+        const amenitiesArray = ['AC','Shower','Double Bed','Towel','Bathup','Cofee Set','LED TV','Wifi']
+        const sql = 'INSERT INTO Amenities (room_id, name) VALUES (?, ?)'
+
+        const createRandomAmenities = (id: number, name: string) => {
+
+            const values = [id, name]
+
+            connection.execute(sql, values)
+        }
+
+        for(let i = 1; i <= num; i++) {
+            for(let j = 0; j < 8; j++){
+                if(Math.random() > 0.5)
+                    createRandomAmenities(i,amenitiesArray[j])
+            }
+        }
+
+    }
+
+    const insertDataIntoRoomImages = () => {
+
+        const sql = 'INSERT INTO Rooms_Images (room_id, url) VALUES (?, ?)'
+    
+        const createRandomRoomImages = (id: number) => {
+
+            const imageArray = [faker.image.urlPicsumPhotos()]
+                
+            for(let j = 0; j < 3; j++){
+                if(Math.random() > 0.5)
+                    imageArray.push(faker.image.urlPicsumPhotos())
+            }
+
+            for(let i = 0; i < imageArray.length; i++){
+                const values = [id, imageArray[i]]
+                connection.execute(sql, values)
+            }
+            
+        }
+
+        for(let i = 1; i <= num; i++) {
+            createRandomRoomImages(i)
+        }
+
+    }
 
     try{
 
@@ -222,13 +275,14 @@ const start = async () => {
         createRoomsTable()
         createAmenitiesTable()
         createRoomImagesTable()
-        addAlterRoomImage()
-        addAlterRooms()
         createBookingsTable()
         createRoomBookingTable()
 
         insertDataIntoUsers()
         insertDataIntoContacts()
+        insertDataIntoRooms()
+        insertDataIntoAmenities()
+        insertDataIntoRoomImages()
 
         connection.end();
 
