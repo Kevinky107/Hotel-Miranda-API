@@ -137,7 +137,7 @@ const start = async () => {
 
     const insertDataIntoUsers = () => {
 
-        const sql = 'INSERT INTO Users(startdate, name, email, phone, picture, post, postdescription, state, password) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)'
+        const sql = 'INSERT INTO Users (startdate, name, email, phone, picture, post, postdescription, state, password) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)'
 
         const createRandomUser = () => {
             const firstname = faker.person.firstName();
@@ -186,6 +186,34 @@ const start = async () => {
         createMe()
     }
 
+    const insertDataIntoContacts = () => {
+
+        const sql = 'INSERT INTO Contacts (date, customer, email, phone, comment, archived) VALUES (?, ?, ?, ?, ?, ?)'
+
+        const createRandomContact = () => {
+            const firstname = faker.person.firstName();
+            const lastname = faker.person.lastName();
+            const contact = {
+                date: faker.date.past({years: 10}).toISOString().slice(0, 10),
+                customer: `${firstname} ${lastname}`,
+                email: faker.internet.email({ firstName: firstname, lastName: lastname }),
+                phone: faker.phone.number(),
+                comment: faker.lorem.paragraph({ min: 1, max: 3 }),
+                archived: faker.datatype.boolean(0.2)
+            }
+
+            const values = [contact.date, contact.customer, contact.email, contact.phone, contact.comment, contact.archived]
+
+            connection.execute(sql, values)
+        }
+
+        for(let i = 0; i < num-1; i++) {
+            createRandomContact()
+        }
+
+    }
+
+
     try{
 
         deleteTables()
@@ -200,6 +228,7 @@ const start = async () => {
         createRoomBookingTable()
 
         insertDataIntoUsers()
+        insertDataIntoContacts()
 
         connection.end();
 
