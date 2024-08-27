@@ -249,7 +249,7 @@ const start = async () => {
             const imageArray = [faker.image.urlPicsumPhotos()]
                 
             for(let j = 0; j < 3; j++){
-                if(Math.random() > 0.5)
+                if(Math.random() > 0.7)
                     imageArray.push(faker.image.urlPicsumPhotos())
             }
 
@@ -311,9 +311,7 @@ const start = async () => {
         }
 
         for(let i = 1; i <= num; i++) {
-            for(let j = num; j > 0; j--){
-                createRandomAmenities(i,j)
-            }
+            createRandomAmenities(i,11-i)
         }
 
     }
