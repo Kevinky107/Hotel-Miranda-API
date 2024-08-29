@@ -1,8 +1,8 @@
 import express, { Request, Response, NextFunction } from 'express'
 import jwt from "jsonwebtoken";
 import { APIError } from '../utils/APIError';
-import { UserModel } from '../schemas/User';
 import bcrypt from 'bcryptjs';
+import { User } from '../services/user';
 
 export const LoginController = express.Router();
 
@@ -31,7 +31,7 @@ LoginController.post('/', async(req: Request, res: Response, next: NextFunction)
 
 async function checkUser(email: string, password: string): Promise<boolean> {
     try {
-        const user = await UserModel.findOne({email: email}).exec();
+        const user = await User.fetchByEmail(email) as any;
         if(user) {
             userChecked = {email: user.email, password: user.password, name: user.name, picture: user.picture, _id: String(user._id)};
             return await bcrypt.compare(password, user.password);

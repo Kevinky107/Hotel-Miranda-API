@@ -1,126 +1,117 @@
-import dotenv from "dotenv"
-import mysql from 'mysql2';
+import dotenv from "dotenv";
 import { faker } from '@faker-js/faker';
+import { pool } from "./utils/mySQLconnection";
+import bcrypt from 'bcryptjs';
 
 dotenv.config();
 
 const start = async () => {
 
-    const connection = mysql.createConnection({
-        host: 'localhost',
-        user: 'root',
-        database: 'hotelmiranda',
-        port: 3306,
-        password: process.env.MYSQL_PASSWORD
-    });
+    console.log("Connection open");
 
     const num = 10;
 
     const deleteTables = async () => {
-        const sql = `DROP TABLE IF EXISTS amenities, bookings, contacts, room_booking, rooms, rooms_images, users;`
-        connection.query(sql);
-    }
+        const sql = `DROP TABLE IF EXISTS amenities, bookings, contacts, room_booking, rooms, rooms_images, users;`;
+        await pool.query(sql);
+        console.log("Tables deleted");
+    };
 
     const createUsersTable = async () => {
         const sql = `CREATE TABLE Users (
             _id int AUTO_INCREMENT,
-            name varchar(255),
-            password varchar(255),
-            email varchar(255),
-            picture varchar(255),
-            post varchar(255),
-            phone varchar(255),
-            postdescription varchar(255),
-            startdate varchar(255),
-            state boolean,
+            name varchar(255) NOT NULL,
+            password varchar(255) NOT NULL,
+            email varchar(255) NOT NULL,
+            picture varchar(255) NOT NULL,
+            post varchar(255) NOT NULL,
+            phone varchar(255) NOT NULL,
+            postdescription varchar(255) NOT NULL,
+            startdate varchar(255) NOT NULL,
+            state boolean NOT NULL,
             PRIMARY KEY (_id)
-        );`
-        connection.query(sql);
-    }
+        );`;
+        await pool.query(sql);
+        console.log("Created Users table");
+    };
 
     const createContactsTable = async () => {
         const sql = `CREATE TABLE Contacts (
             _id int AUTO_INCREMENT,
-            date varchar(255),
-            customer varchar(255),
-            email varchar(255),
-            phone varchar(255),
-            comment varchar(255),
-            archived boolean,
+            date varchar(255) NOT NULL,
+            customer varchar(255) NOT NULL,
+            email varchar(255) NOT NULL,
+            phone varchar(255) NOT NULL,
+            comment varchar(255) NOT NULL,
+            archived boolean NOT NULL,
             PRIMARY KEY (_id)
-        );`
-        connection.query(sql);
-    }
+        );`;
+        await pool.query(sql);
+        console.log("Created Contacts table");
+    };
 
     const createRoomsTable = async () => {
         const sql = `CREATE TABLE Rooms (
             _id int AUTO_INCREMENT,
-            name varchar(255),
-            type varchar(255),
-            price int,
-            offer int,
-            available boolean,
+            name varchar(255) NOT NULL,
+            type varchar(255) NOT NULL,
+            price int NOT NULL,
+            offer int NOT NULL,
+            available boolean NOT NULL,
             PRIMARY KEY (_id)
-        );`
-        connection.query(sql);
-    }
+        );`;
+        await pool.query(sql);
+        console.log("Created Rooms table");
+    };
 
     const createAmenitiesTable = async () => {
         const sql = `CREATE TABLE Amenities (
             _id int AUTO_INCREMENT,
-            room_id int,
-            name varchar(255),
+            room_id int NOT NULL,
+            name varchar(255) NOT NULL,
             PRIMARY KEY (_id),
-            FOREIGN KEY (room_id) REFERENCES Rooms(_id)
-        );`
-        connection.query(sql);
-    }
+            FOREIGN KEY (room_id) REFERENCES Rooms (_id)
+        );`;
+        await pool.query(sql);
+        console.log("Created Amenities table");
+    };
 
     const createRoomImagesTable = async () => {
         const sql = `CREATE TABLE Rooms_Images (
             _id int AUTO_INCREMENT,
-            url varchar(255),
-            room_id int,
+            url varchar(255) NOT NULL,
+            room_id int NOT NULL,
             PRIMARY KEY (_id),
-            FOREIGN KEY (room_id) REFERENCES Rooms(_id)
-        );`
-        connection.query(sql);
-    }
+            FOREIGN KEY (room_id) REFERENCES Rooms (_id)
+        );`;
+        await pool.query(sql);
+        console.log("Created RoomImages table");
+    };
 
     const createBookingsTable = async () => {
         const sql = `CREATE TABLE Bookings (
             _id int AUTO_INCREMENT,
-            guest varchar(255),
-            picture varchar(255),
-            orderdate varchar(255),
-            checkin varchar(255),
-            checkout varchar(255),
+            guest varchar(255) NOT NULL, 
+            picture varchar(255) NOT NULL,
+            orderdate varchar(255) NOT NULL,
+            checkin varchar(255) NOT NULL,
+            checkout varchar(255) NOT NULL,
             note varchar(255),
-            status varchar(255),
-            PRIMARY KEY (_id)
-        );`
-        connection.query(sql);
-    }
-
-    const createRoomBookingTable = async () => {
-        const sql = `CREATE TABLE Room_Booking (
-            _id int AUTO_INCREMENT,
-            booking_id int,
-            room_id int, 
+            status varchar(255) NOT NULL,
+            roomid int NOT NULL,
             PRIMARY KEY (_id),
-            FOREIGN KEY (booking_id) REFERENCES Bookings (_id),
-            FOREIGN KEY (room_id) REFERENCES Rooms (_id)
-        );`
-        connection.query(sql);
-    }
+            FOREIGN KEY (roomid) REFERENCES Rooms (_id)
+        );`;
+        await pool.query(sql);
+        console.log("Created Bookings table");
+    };
 
     // INSERT DATA
 
-    const insertDataIntoUsers = () => {
+    const insertDataIntoUsers = async () => {
+        const sql = 'INSERT INTO Users (startdate, name, email, phone, picture, post, postdescription, state, password) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)';
 
-        const sql = 'INSERT INTO Users (startdate, name, email, phone, picture, post, postdescription, state, password) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)'
-
-        const createRandomUser = () => {
+        const createRandomUser = async () => {
             const firstname = faker.person.firstName();
             const lastname = faker.person.lastName();
             const password = faker.internet.password();    
@@ -133,15 +124,15 @@ const start = async () => {
                 post: faker.helpers.arrayElement(['Manager', 'Room Service', 'Reception']),
                 postdescription: faker.lorem.paragraph({ min: 1, max: 2 }),
                 state: faker.datatype.boolean(0.9),
-                password: password
+                password: await bcrypt.hash(password, 10)
             }
 
-            const values = [user.startdate, user.name, user.email, user.phone, user.picture, user.post, user.postdescription, user.state, user.password]
+            const values = [user.startdate, user.name, user.email, user.phone, user.picture, user.post, user.postdescription, user.state, user.password];
 
-            connection.execute(sql, values)
-        }
+            await pool.execute(sql, values);
+        };
 
-        const createMe = () => {
+        const createMe = async () => {
             const password = '1234'
             const me = {
                 startdate: "2024-06-24",
@@ -152,26 +143,26 @@ const start = async () => {
                 post: `Manager`,
                 postdescription: `full stack developer, is in charge of the operation of the website, its database and its visualization as well as its maintenance`,
                 state: true,
-                password: password
+                password: await bcrypt.hash(password, 10)
             }
 
-            const values = [me.startdate, me.name, me.email, me.phone, me.picture, me.post, me.postdescription, me.state, me.password]
+            const values = [me.startdate, me.name, me.email, me.phone, me.picture, me.post, me.postdescription, me.state, me.password];
 
-            connection.execute(sql, values)
-        }
+            await pool.execute(sql, values);
+        };
 
         for(let i = 0; i < num-1; i++) {
-            createRandomUser()
+            await createRandomUser();
         }
 
-        createMe()
-    }
+        await createMe();
+        console.log("Data inserted into Users");
+    };
 
-    const insertDataIntoContacts = () => {
+    const insertDataIntoContacts = async () => {
+        const sql = 'INSERT INTO Contacts (date, customer, email, phone, comment, archived) VALUES (?, ?, ?, ?, ?, ?)';
 
-        const sql = 'INSERT INTO Contacts (date, customer, email, phone, comment, archived) VALUES (?, ?, ?, ?, ?, ?)'
-
-        const createRandomContact = () => {
+        const createRandomContact = async () => {
             const firstname = faker.person.firstName();
             const lastname = faker.person.lastName();
             const contact = {
@@ -183,101 +174,100 @@ const start = async () => {
                 archived: faker.datatype.boolean(0.2)
             }
 
-            const values = [contact.date, contact.customer, contact.email, contact.phone, contact.comment, contact.archived]
+            const values = [contact.date, contact.customer, contact.email, contact.phone, contact.comment, contact.archived];
 
-            connection.execute(sql, values)
-        }
+            await pool.execute(sql, values);
+        };
 
         for(let i = 0; i < num; i++) {
-            createRandomContact()
+            await createRandomContact();
         }
+        console.log("Data inserted into Contacts");
 
-    }
+    };
 
-    const insertDataIntoRooms = () => {
+    const insertDataIntoRooms = async () => {
+        const sql = 'INSERT INTO Rooms (name, type, price, offer, available) VALUES (?, ?, ?, ?, ?)';
 
-        const sql = 'INSERT INTO Rooms (name, type, price, offer, available) VALUES (?, ?, ?, ?, ?)'
-
-        const createRandomRoom = () => {
-            const price = faker.number.int({min: 200, max: 400})
+        const createRandomRoom = async () => {
+            const price = faker.number.int({min: 200, max: 400});
             const room = {
                 name: `Room ${faker.number.int({ max: 999 })}`,
                 type: faker.helpers.arrayElement(['Suite', 'Single Bed', 'Double Bed', 'Double Superior']),
                 price: price,
                 offer: faker.number.int({min: 100, max: price}),
                 available: faker.datatype.boolean(0.7)
-            }
+            };
 
-            const values = [room.name, room.type, room.price, room.offer, room.available]
+            const values = [room.name, room.type, room.price, room.offer, room.available];
 
-            connection.execute(sql, values)
-        }
+            await pool.execute(sql, values);
+        };
 
         for(let i = 0; i < num; i++) {
-            createRandomRoom()
+            await createRandomRoom();
         }
+        console.log("Data inserted into Rooms");
+    };
 
-    }
+    const insertDataIntoAmenities = async () => {
+        const amenitiesArray = ['AC','Shower','Double Bed','Towel','Bathup','Cofee Set','LED TV','Wifi'];
+        const sql = 'INSERT INTO Amenities (room_id, name) VALUES (?, ?)';
 
-    const insertDataIntoAmenities = () => {
-
-        const amenitiesArray = ['AC','Shower','Double Bed','Towel','Bathup','Cofee Set','LED TV','Wifi']
-        const sql = 'INSERT INTO Amenities (room_id, name) VALUES (?, ?)'
-
-        const createRandomAmenities = (id: number, name: string) => {
-
-            const values = [id, name]
-
-            connection.execute(sql, values)
-        }
+        const createRandomAmenities = async (id: number, name: string) => {
+            const values = [id, name];
+            await pool.execute(sql, values);
+        };
 
         for(let i = 1; i <= num; i++) {
             for(let j = 0; j < 8; j++){
-                if(Math.random() > 0.5)
-                    createRandomAmenities(i,amenitiesArray[j])
+                if(Math.random() > 0.5) {
+                    await createRandomAmenities(i, amenitiesArray[j]);
+                }
             }
         }
+        console.log("Data inserted into Amenities");
 
-    }
+    };
 
-    const insertDataIntoRoomImages = () => {
+    const insertDataIntoRoomImages = async () => {
+        const sql = 'INSERT INTO Rooms_Images (room_id, url) VALUES (?, ?)';
 
-        const sql = 'INSERT INTO Rooms_Images (room_id, url) VALUES (?, ?)'
-    
-        const createRandomRoomImages = (id: number) => {
-
-            const imageArray = [faker.image.urlPicsumPhotos()]
+        const createRandomRoomImages = async (id: number) => {
+            const imageArray = [faker.image.urlPicsumPhotos()];
                 
             for(let j = 0; j < 3; j++){
-                if(Math.random() > 0.7)
-                    imageArray.push(faker.image.urlPicsumPhotos())
+                if(Math.random() > 0.7) {
+                    imageArray.push(faker.image.urlPicsumPhotos());
+                }
             }
 
             for(let i = 0; i < imageArray.length; i++){
-                const values = [id, imageArray[i]]
-                connection.execute(sql, values)
+                const values = [id, imageArray[i]];
+                await pool.execute(sql, values);
             }
             
-        }
+        };
 
         for(let i = 1; i <= num; i++) {
-            createRandomRoomImages(i)
+            await createRandomRoomImages(i);
         }
 
-    }
+        console.log("Data inserted into RoomImages");
 
-    const insertDataIntoBookings = () => {
+    };
 
-        const sql = 'INSERT INTO Bookings (guest, picture, orderdate, checkin, checkout, note, status) VALUES (?, ?, ?, ?, ?, ?, ?)'
+    const insertDataIntoBookings = async () => {
+        const sql = 'INSERT INTO Bookings (guest, picture, orderdate, checkin, checkout, note, roomid, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
 
         const bookingNote = (): null | string => {
-            return Math.random() > 0.6 ? faker.lorem.paragraph({ min: 1, max: 3 }) : null
-        }
+            return Math.random() > 0.6 ? faker.lorem.paragraph({ min: 1, max: 3 }) : null;
+        };
 
-        const createRandomBooking = () => {
+        const createRandomBooking = async (id: number) => {
             const reference = faker.date.recent();
             faker.setDefaultRefDate(reference);
-            const later = new Date(reference.getTime() + faker.number.int({min: 86400000, max: 2160000000}))
+            const later = new Date(reference.getTime() + faker.number.int({min: 86400000, max: 2160000000}));
             const booking = {
                 guest: faker.person.fullName(),
                 picture: faker.image.avatarGitHub(),
@@ -285,63 +275,44 @@ const start = async () => {
                 checkin: faker.defaultRefDate().toISOString().slice(0, 10),
                 checkout: later.toISOString().slice(0, 10),
                 note: bookingNote(),
+                roomid: id,
                 status: faker.helpers.arrayElement(['check in', 'check out', 'in progress'])
-            }
+            };
 
-            const values = [booking.guest, booking.picture, booking.orderdate, booking.checkin, booking.checkout, booking.note, booking.status]
+            const values = [booking.guest, booking.picture, booking.orderdate, booking.checkin, booking.checkout, booking.note, booking.roomid, booking.status];
 
-            connection.execute(sql, values)
-        }
+            await pool.execute(sql, values);
+        };
 
         for(let i = 0; i < num; i++) {
-            createRandomBooking()
+            await createRandomBooking(i+1);
         }
+        console.log("Data inserted into Bookings");
+    };
 
+    try {
+        await deleteTables();
+
+        await createUsersTable();
+        await createContactsTable();
+        await createRoomsTable();
+        await createAmenitiesTable();
+        await createRoomImagesTable();
+        await createBookingsTable();
+
+        await insertDataIntoUsers();
+        await insertDataIntoContacts();
+        await insertDataIntoRooms();
+        await insertDataIntoAmenities();
+        await insertDataIntoRoomImages();
+        await insertDataIntoBookings();
+
+    } catch(e) {
+        console.log(e);
+    } finally {
+        await pool.end();
+        console.log("Connection ended");
     }
-
-    const insertDataIntoRoomBooking = () => {
-
-        const sql = 'INSERT INTO Room_Booking (booking_id, room_id) VALUES (?, ?)'
-
-        const createRandomAmenities = (bid: number, rid: number) => {
-
-            const values = [bid, rid]
-
-            connection.execute(sql, values)
-        }
-
-        for(let i = 1; i <= num; i++) {
-            createRandomAmenities(i,11-i)
-        }
-
-    }
-
-    try{
-
-        deleteTables()
-
-        createUsersTable()
-        createContactsTable()
-        createRoomsTable()
-        createAmenitiesTable()
-        createRoomImagesTable()
-        createBookingsTable()
-        createRoomBookingTable()
-
-        insertDataIntoUsers()
-        insertDataIntoContacts()
-        insertDataIntoRooms()
-        insertDataIntoAmenities()
-        insertDataIntoRoomImages()
-        insertDataIntoBookings()
-        insertDataIntoRoomBooking()
-
-        connection.end();
-
-    } catch(e){
-        console.log(e)
-    }
-    
 };
 
 start();

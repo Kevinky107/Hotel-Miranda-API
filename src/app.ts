@@ -7,7 +7,6 @@ import { contactController } from './controllers/contact';
 import { APIError } from './utils/APIError';
 import dotenv from "dotenv"
 import { LoginController } from './controllers/login';
-const mongoose = require("mongoose");
 const cors = require('cors')
 
 dotenv.config();
@@ -15,20 +14,6 @@ dotenv.config();
 export const app = express();
 
 app.use(cors())
-
-const start = async () => {
-    try {
-      await mongoose.connect(
-        `mongodb+srv://Kevinky:${process.env.ATLAS_KEY}@kevin.cr5lhp0.mongodb.net/Hotel-Miranda`
-      )
-    } catch (error) {
-      console.error(error);
-      process.exit(1);
-    }
-};
-  
-start();
-
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}))
